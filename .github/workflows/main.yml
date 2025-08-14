@@ -32,7 +32,7 @@ jobs:
         run: npm run build
 
       - name: Package Electron app for Linux (AppImage + deb, no publish)
-        run: npx electron-builder --linux AppImage deb --publish=never
+        run: npx electron-builder --linux AppImage deb --publish=none
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
