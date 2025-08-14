@@ -1,0 +1,39 @@
+name: Build Electron App for Linux
+
+on:
+  workflow_dispatch:  # 仅手动触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install cnpm
+        run: npm install -g cnpm --registry=https://registry.npmmirror.com
+
+      - name: Install dependencies with cnpm
+        run: cnpm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Package Electron app for Linux
+        run: npx electron-builder --linux
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: electron-linux-build
+          path: dist/
