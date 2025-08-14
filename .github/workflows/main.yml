@@ -27,7 +27,7 @@ jobs:
         run: npm run build
 
       - name: Package Electron app for Linux
-        run: npx electron-builder --linux
+        run: npx electron-builder --linux AppImage deb
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
